@@ -4,6 +4,11 @@ from app.models import User
 
 main_bp = Blueprint('main', __name__)
 
+@main_bp.route('/ping')
+def ping():
+    return {'message': 'pong'}
+
+
 @main_bp.route('/')
 def index():
     return "Flask backend is running!"
