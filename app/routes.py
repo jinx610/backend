@@ -4,9 +4,11 @@ from app.models import User
 
 main_bp = Blueprint('main', __name__)
 
-@main_bp.route('/ping')
+@main_bp.route('/ping', methods=['POST'])
 def ping():
-    return {'message': 'pong'}
+    data = request.get_json()
+    code = data.get('code')
+    return jsonify({'code': code})
 
 
 @main_bp.route('/')
@@ -22,7 +24,6 @@ def add_user():
         return jsonify({'error': 'name is required'}), 400
     user = User(name=name, email=email)
 
-    print(user)
     db.session.add(user)
     db.session.commit()
     return jsonify({'message': f'User {name} created'}), 201
