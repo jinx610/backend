@@ -10,11 +10,21 @@ load_dotenv()
 
 db = SQLAlchemy()
 
+
+
 def create_app():
     app = Flask(__name__)
     app.config.from_object('app.config.Config')
 
-    CORS(app, supports_credentials=True)
+    ENV = os.getenv("ENV", "development")
+
+    if ENV == "development":
+        origins = ["http://127.0.0.1:3000"]  # 本地开发地址（Vite默认端口）
+    else:
+        origins = ["https://v0-new-project-cydxhxkw9hp.vercel.app"]  # 线上前端域名
+
+    CORS(app, origins=origins, supports_credentials=True)
+
     db.init_app(app)
 
     from app.routes import main_bp
