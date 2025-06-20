@@ -4,6 +4,10 @@ from app.models import User
 
 main_bp = Blueprint('main', __name__)
 
+@main_bp.route('/')
+def index():
+    return "Flask backend is running!"
+
 @main_bp.route('/users', methods=['POST'])
 def add_user():
     data = request.get_json()
